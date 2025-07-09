@@ -2,185 +2,208 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tree Traversal Visualizer</title>
     <link rel="stylesheet" href="trees.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        /* Add touch-friendly button sizes */
+        .btn {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        
+        /* Prevent zooming on input fields */
+        input, textarea, select {
+            font-size: 16px;
+        }
+        
+        /* Make sure the tree container doesn't overflow */
+        #tree-container {
+            overflow: hidden;
+            touch-action: pan-x pan-y;
+        }
+        
+        /* Adjust legend items for mobile */
+        .legend-item {
+            padding: 0.5rem;
+        }
+    </style>
 </head>
 <body class="min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <header class="mb-8">
-            <div class="flex justify-between items-center">
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <header class="mb-4 sm:mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div>
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent mb-2">Tree Traversal Visualizer</h1>
-                    <p class="text-gray-400 max-w-2xl">Interactive visualization of tree traversal algorithms with custom tree generation</p>
+                    <h1 class="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent mb-1 sm:mb-2">Tree Traversal Visualizer</h1>
+                    <p class="text-gray-400 text-sm sm:text-base max-w-2xl">Interactive visualization of tree traversal algorithms with custom tree generation</p>
                 </div>
-                <button id="show-register" class="btn btn-secondary px-6 py-3">
+                <button id="show-register" class="btn btn-secondary px-4 py-2 sm:px-6 sm:py-3 w-full sm:w-auto">
                     <i class="fas fa-arrow-left mr-2"></i> Back to Menu
                 </button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             <!-- Left Panel - Controls -->
-            <div class="lg:col-span-1 space-y-6">
+            <div class="lg:col-span-1 space-y-4 sm:space-y-6">
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-sliders-h"></i> Tree Configuration
                     </h2>
                     
-                    <div class="mb-6">
-                        <label class="block text-gray-300 mb-2 font-medium">Tree Type</label>
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-gray-300 mb-1 sm:mb-2 font-medium">Tree Type</label>
                         <div class="flex flex-wrap gap-2">
-                            <button id="binary-tree-btn" class="btn btn-primary flex-1">
-                                <i class="fas fa-binary-tree mr-2"></i> Binary
+                            <button id="binary-tree-btn" class="btn btn-primary flex-1 text-sm sm:text-base">
+                                <i class="fas fa-binary-tree mr-1 sm:mr-2"></i> Binary
                             </button>
-                            <button id="nary-tree-btn" class="btn btn-secondary flex-1">
-                                <i class="fas fa-tree mr-2"></i> N-ary
+                            <button id="nary-tree-btn" class="btn btn-secondary flex-1 text-sm sm:text-base">
+                                <i class="fas fa-tree mr-1 sm:mr-2"></i> N-ary
                             </button>
                         </div>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-gray-300 mb-2 font-medium">Root Node</label>
-                        <input type="text" id="root-value" placeholder="Root node (A-Z)" class="input-field" maxlength="1" pattern="[A-Z]">
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-gray-300 mb-1 sm:mb-2 font-medium">Root Node</label>
+                        <input type="text" id="root-value" placeholder="Root node (A-Z)" class="input-field" maxlength="1" pattern="[A-Z]" style="font-size: 16px;">
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-gray-300 mb-2 font-medium">Node Relationships</label>
-                        <div id="node-relationships" class="space-y-3">
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-gray-300 mb-1 sm:mb-2 font-medium">Node Relationships</label>
+                        <div id="node-relationships" class="space-y-2 sm:space-y-3">
                             <div class="node-relationship">
-                                <input type="text" class="input-field parent-input" placeholder="Parent (A-Z)" maxlength="1" pattern="[A-Z]">
-                                <input type="text" class="input-field children-input" placeholder="Children (A,B,C)" pattern="([A-Z],)*[A-Z]">
+                                <input type="text" class="input-field parent-input" placeholder="Parent (A-Z)" maxlength="1" pattern="[A-Z]" style="font-size: 16px;">
+                                <input type="text" class="input-field children-input" placeholder="Children (A,B,C)" pattern="([A-Z],)*[A-Z]" style="font-size: 16px;">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2 mt-2">
-                            <button id="add-relationship-btn" class="btn btn-secondary">
-                                <i class="fas fa-plus mr-2"></i> Add Relationship
+                            <button id="add-relationship-btn" class="btn btn-secondary text-sm sm:text-base">
+                                <i class="fas fa-plus mr-1 sm:mr-2"></i> Add
                             </button>
-                            <button id="reset-relationships-btn" class="btn btn-danger">
-                                <i class="fas fa-redo mr-2"></i> Reset
+                            <button id="reset-relationships-btn" class="btn btn-danger text-sm sm:text-base">
+                                <i class="fas fa-redo mr-1 sm:mr-2"></i> Reset
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-cogs"></i> Tree Operations
                     </h2>
                     
-                    <div class="grid grid-cols-2 gap-3">
-                        <button id="clear-tree-btn" class="btn btn-danger">
-                            <i class="fas fa-trash mr-2"></i> Clear
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                        <button id="clear-tree-btn" class="btn btn-danger text-sm sm:text-base">
+                            <i class="fas fa-trash mr-1 sm:mr-2"></i> Clear
                         </button>
-                        <button id="random-tree-btn" class="btn btn-warning">
-                            <i class="fas fa-random mr-2"></i> Random
+                        <button id="random-tree-btn" class="btn btn-warning text-sm sm:text-base">
+                            <i class="fas fa-random mr-1 sm:mr-2"></i> Random
                         </button>
-                        <button id="generate-tree-btn" class="btn btn-success col-span-2">
-                            <i class="fas fa-project-diagram mr-2"></i> Generate Tree
+                        <button id="generate-tree-btn" class="btn btn-success col-span-2 text-sm sm:text-base">
+                            <i class="fas fa-project-diagram mr-1 sm:mr-2"></i> Generate Tree
                         </button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-route"></i> Traversal Algorithms
                     </h2>
                     
-                    <div class="grid grid-cols-2 gap-3">
-                        <button id="dfs-preorder-btn" class="btn btn-info">
-                            <i class="fas fa-project-diagram mr-2"></i> Preorder
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                        <button id="dfs-preorder-btn" class="btn btn-info text-sm sm:text-base">
+                            <i class="fas fa-project-diagram mr-1 sm:mr-2"></i> Preorder
                         </button>
-                        <button id="dfs-inorder-btn" class="btn btn-info">
-                            <i class="fas fa-sort mr-2"></i> Inorder
+                        <button id="dfs-inorder-btn" class="btn btn-info text-sm sm:text-base">
+                            <i class="fas fa-sort mr-1 sm:mr-2"></i> Inorder
                         </button>
-                        <button id="dfs-postorder-btn" class="btn btn-info">
-                            <i class="fas fa-project-diagram mr-2"></i> Postorder
+                        <button id="dfs-postorder-btn" class="btn btn-info text-sm sm:text-base">
+                            <i class="fas fa-project-diagram mr-1 sm:mr-2"></i> Postorder
                         </button>
-                        <button id="bfs-btn" class="btn btn-info">
-                            <i class="fas fa-expand mr-2"></i> BFS
+                        <button id="bfs-btn" class="btn btn-info text-sm sm:text-base">
+                            <i class="fas fa-expand mr-1 sm:mr-2"></i> BFS
                         </button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-tachometer-alt"></i> Animation Controls
                     </h2>
                     
-                    <div class="mb-6">
-                        <label class="block text-gray-300 mb-2 font-medium">Animation Speed</label>
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-gray-300 mb-1 sm:mb-2 font-medium">Animation Speed</label>
                         <input type="range" min="100" max="2000" value="800" class="slider w-full" id="speed-slider">
-                        <div class="flex justify-between text-sm text-gray-400 mt-1">
+                        <div class="flex justify-between text-xs sm:text-sm text-gray-400 mt-1">
                             <span><i class="fas fa-turtle mr-1"></i> Slow</span>
                             <span><i class="fas fa-rabbit mr-1"></i> Fast</span>
                         </div>
                     </div>
 
-                    <div class="flex gap-3">
-                        <button id="play-btn" class="btn btn-success flex-1">
-                            <i class="fas fa-play mr-2"></i> Play
+                    <div class="flex gap-2 sm:gap-3">
+                        <button id="play-btn" class="btn btn-success flex-1 text-sm sm:text-base">
+                            <i class="fas fa-play mr-1 sm:mr-2"></i> Play
                         </button>
-                        <button id="pause-btn" class="btn btn-warning flex-1" disabled>
-                            <i class="fas fa-pause mr-2"></i> Pause
+                        <button id="pause-btn" class="btn btn-warning flex-1 text-sm sm:text-base" disabled>
+                            <i class="fas fa-pause mr-1 sm:mr-2"></i> Pause
                         </button>
-                        <button id="reset-btn" class="btn btn-danger flex-1">
-                            <i class="fas fa-redo mr-2"></i> Reset
+                        <button id="reset-btn" class="btn btn-danger flex-1 text-sm sm:text-base">
+                            <i class="fas fa-redo mr-1 sm:mr-2"></i> Reset
                         </button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-info-circle"></i> Node Legend
                     </h2>
                     
-                    <div class="space-y-2">
+                    <div class="space-y-1 sm:space-y-2">
                         <div class="legend-item">
                             <div class="legend-color bg-indigo-500 border-indigo-600"></div>
-                            <span>Normal Node</span>
+                            <span class="text-sm sm:text-base">Normal Node</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color bg-red-500 border-red-600"></div>
-                            <span>Root Node</span>
+                            <span class="text-sm sm:text-base">Root Node</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color bg-blue-500 border-blue-600"></div>
-                            <span>Active Node</span>
+                            <span class="text-sm sm:text-base">Active Node</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color bg-green-500 border-green-600"></div>
-                            <span>Visited Node</span>
+                            <span class="text-sm sm:text-base">Visited Node</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color bg-yellow-500 border-yellow-600"></div>
-                            <span>Current Node</span>
+                            <span class="text-sm sm:text-base">Current Node</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color bg-purple-500 border-purple-600"></div>
-                            <span>Revisited Node</span>
+                            <span class="text-sm sm:text-base">Revisited Node</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Center Panel - Tree Visualization -->
-            <div class="lg:col-span-2 space-y-6">
-                <div id="tree-container" class="w-full relative rounded-xl">
-                    <svg id="tree-svg" width="100%" height="700"></svg>
-                    <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 p-8 text-center">
-                        <i class="fas fa-tree text-5xl mb-4 opacity-30"></i>
-                        <h3 class="text-xl font-medium mb-2">No Tree Created</h3>
-                        <p class="max-w-md">Define node relationships and click "Generate Tree" to visualize your tree.</p>
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+                <div id="tree-container" class="w-full relative rounded-xl" style="height: 60vh;">
+                    <svg id="tree-svg" width="100%" height="100%"></svg>
+                    <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 p-4 sm:p-8 text-center">
+                        <i class="fas fa-tree text-4xl sm:text-5xl mb-2 sm:mb-4 opacity-30"></i>
+                        <h3 class="text-lg sm:text-xl font-medium mb-1 sm:mb-2">No Tree Created</h3>
+                        <p class="text-sm sm:text-base max-w-md">Define node relationships and click "Generate Tree" to visualize your tree.</p>
                     </div>
                 </div>
                 
                 <!-- Animation progress bar -->
                 <div class="card">
-                    <div class="flex justify-between text-sm text-gray-400 mb-1">
+                    <div class="flex justify-between text-xs sm:text-sm text-gray-400 mb-1">
                         <span>Animation Progress</span>
                         <span id="progress-text">0/0 steps</span>
                     </div>
@@ -191,22 +214,22 @@
 
                 <!-- Explanation Panel -->
                 <div class="card">
-                    <h2 class="text-xl font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+                    <h2 class="text-lg sm:text-xl font-semibold text-indigo-300 mb-2 sm:mb-4 flex items-center gap-2">
                         <i class="fas fa-info-circle"></i> Algorithm Explanation
                     </h2>
-                    <div id="explanation" class="p-4 bg-gray-700 rounded-lg min-h-[120px] max-h-64 overflow-y-auto">
+                    <div id="explanation" class="p-2 sm:p-4 bg-gray-700 rounded-lg min-h-[100px] sm:min-h-[120px] max-h-48 sm:max-h-64 overflow-y-auto text-sm sm:text-base">
                         <p class="text-gray-300">Select a traversal algorithm to see step-by-step explanations here.</p>
                     </div>
-                    <div id="traversal-result" class="mt-4 p-4 bg-gray-700 rounded-lg hidden">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-lg font-medium text-indigo-300 flex items-center gap-2">
+                    <div id="traversal-result" class="mt-2 sm:mt-4 p-2 sm:p-4 bg-gray-700 rounded-lg hidden">
+                        <div class="flex justify-between items-center mb-1 sm:mb-2">
+                            <h3 class="text-base sm:text-lg font-medium text-indigo-300 flex items-center gap-2">
                                 <i class="fas fa-list-ol"></i> Traversal Order
                             </h3>
-                            <button id="copy-result-btn" class="btn btn-secondary px-3 py-1 rounded-md text-sm">
+                            <button id="copy-result-btn" class="btn btn-secondary px-2 py-1 sm:px-3 sm:py-1 rounded-md text-xs sm:text-sm">
                                 <i class="fas fa-copy mr-1"></i> Copy
                             </button>
                         </div>
-                        <div id="result-list" class="flex flex-wrap gap-2"></div>
+                        <div id="result-list" class="flex flex-wrap gap-1 sm:gap-2 text-xs sm:text-sm"></div>
                     </div>
                 </div>
             </div>
@@ -217,4 +240,4 @@
 
     <script src="trees.js"></script>
 </body>
-</html>    
+</html>
