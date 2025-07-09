@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer</title>
+    <link rel="stylesheet" href="index_light.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+    <!-- Floating Particles Background -->
+    <div class="fixed inset-0 overflow-hidden -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50"></div>
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="absolute top-20 left-10 w-3 h-3 rounded-full bg-indigo-400/40 animate-float delay-100"></div>
+            <div class="absolute top-1/3 right-20 w-4 h-4 rounded-full bg-purple-400/40 animate-float delay-300"></div>
+            <div class="absolute bottom-1/4 left-1/4 w-2 h-2 rounded-full bg-blue-400/40 animate-float delay-500"></div>
+            <div class="absolute top-1/4 right-1/3 w-3 h-3 rounded-full bg-indigo-400/40 animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-4 h-4 rounded-full bg-purple-400/40 animate-float delay-200"></div>
+            <div class="absolute top-3/4 left-1/3 w-2 h-2 rounded-full bg-blue-400/40 animate-float delay-400"></div>
+        </div>
+    </div>
+
+    <header class="gradient-bg text-white shadow-xl">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="back-button" class="back-button mr-4 p-2 rounded-full hover:bg-indigo-600/30 transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h1 class="text-4xl font-bold animate-slide-in glow-text">
+                        <span class="inline-block hover:scale-105 transition-transform duration-300">
+                            <i class="fas fa-project-diagram mr-3 animate-pulse"></i>Algorithm Visualizer
+                        </span>
+                    </h1>
+                </div>
+                <div>
+                    <button id="theme-toggle" class="p-3 rounded-full hover:bg-indigo-600/30 transition-colors shadow-lg">
+                        <i class="fas fa-moon text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-3 text-indigo-100/90 animate-slide-in delay-100 glow-text">
+                Visualize complex algorithms in an intuitive, interactive way
+            </p>
+        </div>
+    </header>
+
+    <nav class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-10 border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <ul class="flex space-x-1 py-4">
+                    <li>
+                        <a href="index_light.html" class="nav-link px-4 py-2 rounded-lg hover:bg-indigo-100/50 transition-colors active font-medium">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sort.html" class="nav-link px-4 py-2 rounded-lg hover:bg-indigo-100/50 transition-colors">
+                            <i class="fas fa-sort-amount-down mr-2"></i>Sorting
+                        </a>
+                    </li>
+                    <li>
+                        <a href="trees.html" class="nav-link px-4 py-2 rounded-lg hover:bg-indigo-100/50 transition-colors">
+                            <i class="fas fa-tree mr-2"></i>Tree Traversal
+                        </a>
+                    </li>
+                    <li>
+                        <a href="search.html" class="nav-link px-4 py-2 rounded-lg hover:bg-indigo-100/50 transition-colors">
+                            <i class="fas fa-search mr-2"></i>Searching
+                        </a>
+                    </li>
+                    <li>
+                        <a href="graph.html" class="nav-link px-4 py-2 rounded-lg hover:bg-indigo-100/50 transition-colors">
+                            <i class="fas fa-share-alt mr-2"></i>Graph Algorithms
+                        </a>
+                    </li>
+                </ul>
+                <div class="mb-4 md:mb-0">
+                    <button id="tutorial-btn" class="px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 rounded-lg text-white transition-all shadow-lg hover:shadow-yellow-500/30 transform hover:-translate-y-0.5">
+                        <i class="fas fa-question-circle mr-2"></i>Tutorial
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="home" class="section-content active-section">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-6 animate-slide-in glow-text bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                    Welcome to Algorithm Visualizer
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto animate-slide-in delay-100">
+                    Understand complex algorithms through <span class="font-medium text-indigo-600">interactive visualizations</span> and <span class="font-medium text-purple-600">step-by-step explanations</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 card-hover border border-gray-100 animate-slide-in delay-100">
+                    <div class="text-center mb-6">
+                        <div class="inline-block p-4 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 shadow-lg">
+                            <i class="fas fa-sort-amount-down text-4xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Sorting</h3>
+                    <p class="text-gray-600 mb-5 text-center">
+                        Visualize how different sorting algorithms work with real-time comparisons
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Bubble, Selection, Insertion</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Merge, Quick, Heap, Tim Sort</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Load your custom array</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Real-time statistics</li>
+                    </ul>
+                    <a href="sort.html" class="block w-full text-center px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 card-hover border border-gray-100 animate-slide-in delay-200">
+                    <div class="text-center mb-6">
+                        <div class="inline-block p-4 rounded-xl bg-gradient-to-br from-green-100 to-teal-100 shadow-lg">
+                            <i class="fas fa-tree text-4xl bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-600"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-600">Tree Traversal</h3>
+                    <p class="text-gray-600 mb-5 text-center">
+                        Understand different ways to traverse binary trees with interactive animations
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>In-order, Pre-order, Post-order</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Level-order traversal</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Custom tree creation</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Traversal Explanation</li>
+                    </ul>
+                    <a href="trees.html" class="block w-full text-center px-5 py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 card-hover border border-gray-100 animate-slide-in delay-300">
+                    <div class="text-center mb-6">
+                        <div class="inline-block p-4 rounded-xl bg-gradient-to-br from-blue-100 to-cyan-100 shadow-lg">
+                            <i class="fas fa-search text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-600"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-600">Searching</h3>
+                    <p class="text-gray-600 mb-5 text-center">
+                        See how search algorithms work with customizable inputs and step execution
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Linear, Binary Search</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Jump, Exponential, Interpolation Search</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Comparison counter and pseudocodes</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Custom Array input</li>
+                    </ul>
+                    <a href="search.html" class="block w-full text-center px-5 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 card-hover border border-gray-100 animate-slide-in delay-400">
+                    <div class="text-center mb-6">
+                        <div class="inline-block p-4 rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 shadow-lg">
+                            <i class="fas fa-share-alt text-4xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">Graphs</h3>
+                    <p class="text-gray-600 mb-5 text-center">
+                        Visualize essential graph algorithms with interactive node manipulation
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Prim's, Kruskal's, Dijkstra's Algorithms</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Euler and Hamilton paths and circuits</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Bipartite graphs, vertex and edge colouring </li>
+                        <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-green-500"></i>Isomorphism</li>
+                    </ul>
+                    <a href="graph.html" class="block w-full text-center px-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-100 animate-fade-in delay-500">
+                <h3 class="text-3xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">How It Works</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex items-start p-4 rounded-xl hover:bg-gray-50/50 transition-all">
+                        <div class="bg-indigo-100/80 p-3 rounded-xl mr-4 shadow-md">
+                            <i class="fas fa-sliders-h text-2xl text-indigo-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Customize Parameters</h4>
+                            <p class="text-gray-600">
+                                Adjust array sizes, animation speeds, tree structures, and target values to see algorithm performance under different conditions.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 rounded-xl hover:bg-gray-50/50 transition-all">
+                        <div class="bg-purple-100/80 p-3 rounded-xl mr-4 shadow-md">
+                            <i class="fas fa-play-circle text-2xl text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Visualize Execution</h4>
+                            <p class="text-gray-600">
+                                Watch algorithms execute step-by-step with color-coded elements highlighting current operations and comparisons.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 rounded-xl hover:bg-gray-50/50 transition-all">
+                        <div class="bg-blue-100/80 p-3 rounded-xl mr-4 shadow-md">
+                            <i class="fas fa-chart-line text-2xl text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Analyze Performance</h4>
+                            <p class="text-gray-600">
+                                Real-time statistics show time complexity, swaps, comparisons, and recursion depth to understand algorithmic efficiency.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 rounded-xl hover:bg-gray-50/50 transition-all">
+                        <div class="bg-green-100/80 p-3 rounded-xl mr-4 shadow-md">
+                            <i class="fas fa-code text-2xl text-green-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Learn Implementation</h4>
+                            <p class="text-gray-600">
+                                View highlighted pseudocode that tracks with the visualization to connect concepts with implementation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm modal-enter">
+        <div class="bg-white/95 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 modal-content-enter">
+            <div class="p-8 relative">
+                <button id="close-tutorial" class="absolute top-6 right-6 text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-full hover:bg-gray-100/50">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                <h3 class="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Algorithm Visualizer Tutorial</h3>
+                
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3 text-indigo-600 flex items-center">
+                            <i class="fas fa-rocket mr-3"></i>Getting Started
+                        </h4>
+                        <p class="text-gray-600 mb-4">
+                            Welcome to Algorithm Visualizer! This interactive tool helps you understand how different algorithms work through visualization.
+                        </p>
+                        <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100/30">
+                            <p class="text-indigo-700 font-medium">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                                Use the navigation at the top to switch between different algorithm categories
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100/30">
+                            <h4 class="text-lg font-semibold mb-3 text-purple-600 flex items-center">
+                                <i class="fas fa-sort-amount-down mr-2"></i>Sorting
+                            </h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">1</span>
+                                    <span>Select algorithm from dropdown</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">2</span>
+                                    <span>Adjust array size and speed</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">3</span>
+                                    <span>Click "Start" to visualize</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100/30">
+                            <h4 class="text-lg font-semibold mb-3 text-green-600 flex items-center">
+                                <i class="fas fa-tree mr-2"></i>Trees
+                            </h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">1</span>
+                                    <span>Choose tree type or build custom</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">2</span>
+                                    <span>Adjust height with slider</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">3</span>
+                                    <span>Click traversal button to visualize</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100/30">
+                            <h4 class="text-lg font-semibold mb-3 text-blue-600 flex items-center">
+                                <i class="fas fa-search mr-2"></i>Searching
+                            </h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">1</span>
+                                    <span>Select Linear or Binary Search</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">2</span>
+                                    <span>Set target value and parameters</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">3</span>
+                                    <span>Start visualization to see search</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100/30">
+                            <h4 class="text-lg font-semibold mb-3 text-pink-600 flex items-center">
+                                <i class="fas fa-share-alt mr-2"></i>Graphs
+                            </h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">1</span>
+                                    <span>Select graph algorithm</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">2</span>
+                                    <span>Add nodes and edges</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-indigo-100 text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2 mt-0.5">3</span>
+                                    <span>Visualize path finding</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-yellow-50/70 to-amber-50/70 p-6 rounded-xl border border-yellow-100/40">
+                        <h4 class="text-xl font-semibold mb-4 text-amber-600 flex items-center">
+                            <i class="fas fa-lightbulb mr-3"></i>Pro Tips
+                        </h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="bg-amber-100 text-amber-600 rounded-lg p-2 mr-3">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-gray-800">Start Small</h5>
+                                    <p class="text-gray-600 text-sm">Begin with smaller arrays/simple trees to understand basics before scaling up</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-amber-100 text-amber-600 rounded-lg p-2 mr-3">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-gray-800">Medium Speed</h5>
+                                    <p class="text-gray-600 text-sm">Use medium speed for first visualizations, then adjust as needed</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="bg-amber-100 text-amber-600 rounded-lg p-2 mr-3">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-gray-800">Compare Algorithms</h5>
+                                    <p class="text-gray-600 text-sm">Try different algorithms on same input to compare performance</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-100 backdrop-blur-md text-gray-700 py-12 border-t border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-gray-800">
+                        <i class="fas fa-project-diagram mr-2 text-indigo-600"></i> Algorithm Visualizer
+                    </h3>
+                    <p class="text-gray-600">Interactive algorithm visualization for better understanding of computer science fundamentals.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Algorithms</h4>
+                    <ul class="space-y-2">
+                        <li><a href="sort.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Sorting</a></li>
+                        <li><a href="trees.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Tree Traversal</a></li>
+                        <li><a href="search.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Searching</a></li>
+                        <li><a href="graph.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Graph Algorithms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">Examples</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Connect</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 hover:bg-indigo-600 flex items-center justify-center transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 hover:bg-blue-500 flex items-center justify-center transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 hover:bg-blue-700 flex items-center justify-center transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 hover:bg-red-600 flex items-center justify-center transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-600">Subscribe to our newsletter</p>
+                    <div class="mt-2 flex">
+                        <input type="email" placeholder="Your email" class="px-3 py-2 bg-gray-200 text-gray-800 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full">
+                        <button class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700 transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-300 pt-8 text-sm text-center">
+                <p class="text-gray-600">&copy; 2025 Algorithm Visualizer. All rights reserved.</p>
+                <p class="mt-2 text-gray-500">Built with <i class="fas fa-heart text-red-500"></i> by ALARIC P</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index_light.js"></script>
+</body>
+</html>
