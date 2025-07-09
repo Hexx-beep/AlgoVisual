@@ -33,6 +33,20 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
         window.location.href = 'index_light.html'; // Goes to light version
     }, 600);
 });
+// Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
 // Tutorial modal functionality
 document.getElementById('tutorial-btn').addEventListener('click', function() {
