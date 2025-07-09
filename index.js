@@ -1,48 +1,7 @@
 // ======================
 // DOM ELEMENT REFERENCES
 // ======================
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
 
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function() {
-            // Toggle menu visibility
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('block');
-            
-            // Change icon
-            const icon = this.querySelector('i');
-            if (mobileMenu.classList.contains('block')) {
-                icon.classList.replace('fa-bars', 'fa-times');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
-            } else {
-                icon.classList.replace('fa-times', 'fa-bars');
-                document.body.style.overflow = ''; // Enable scrolling
-            }
-        });
-
-        // Close menu when clicking on links
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('block');
-                mobileMenuButton.querySelector('i').classList.replace('fa-times', 'fa-bars');
-                document.body.style.overflow = ''; // Re-enable scrolling
-            });
-        });
-
-        // Close when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('block');
-                mobileMenuButton.querySelector('i').classList.replace('fa-times', 'fa-bars');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-});
 const elements = {
   mobileMenuButton: document.getElementById('mobile-menu-button'),
   mobileMenu: document.getElementById('mobile-menu'),
