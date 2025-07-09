@@ -253,8 +253,22 @@ body.page-fade-out {
     transition: all 0.3s ease;
     max-height: 0;
     overflow: hidden;
+    opacity: 0;
 }
 
-#mobile-menu.menu-open {
-    max-height: 500px; /* Adjust based on your content */
+#mobile-menu.block {
+    max-height: 500px; /* Adjust based on content */
+    opacity: 1;
+    overflow: visible;
+}
+
+#mobile-menu ul {
+    padding: 1rem 0;
+}
+
+#mobile-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease;
 }
