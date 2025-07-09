@@ -249,26 +249,80 @@ body.page-fade-out {
     color: #3b82f6;
     animation: pulse 2s infinite;
 }
-#mobile-menu {
+#mobile-menu .absolute {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Particle animations */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gradient-bg {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .card-hover {
+        padding: 1.5rem;
+    }
+    
+    #tutorial-modal {
+        padding: 1rem;
+    }
+}
+
+/* Dark mode transitions */
+html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button hover effects */
+.button-hover {
     transition: all 0.3s ease;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
 }
 
-#mobile-menu.block {
-    max-height: 500px; /* Adjust based on content */
-    opacity: 1;
-    overflow: visible;
+.button-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#mobile-menu ul {
-    padding: 1rem 0;
+/* Card hover effects */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#mobile-menu li a {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.2s ease;
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal animations */
+.modal-enter {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-content-enter {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
