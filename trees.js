@@ -4,6 +4,16 @@ document.getElementById('show-register').addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = 'index.html';
 });
+function animateOnScroll() {
+    const cards = document.querySelectorAll('.card-hover, .animate-slide-in');
+    cards.forEach((card, index) => {
+        const cardPosition = card.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.3;
+        if (cardPosition < screenPosition) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }
+    });
 
 // Tree data structure
 class TreeNode {
