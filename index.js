@@ -2,7 +2,6 @@
 // DOM ELEMENT REFERENCES
 // ======================
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
@@ -14,8 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Change icon
             const icon = this.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            if (mobileMenu.classList.contains('block')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+                document.body.style.overflow = ''; // Enable scrolling
+            }
         });
 
         // Close menu when clicking on links
@@ -23,11 +27,22 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 mobileMenu.classList.add('hidden');
                 mobileMenu.classList.remove('block');
-                mobileMenuButton.querySelector('i').classList.add('fa-bars');
-                mobileMenuButton.querySelector('i').classList.remove('fa-times');
+                mobileMenuButton.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                document.body.style.overflow = ''; // Re-enable scrolling
             });
         });
+
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('block');
+                mobileMenuButton.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                document.body.style.overflow = '';
+            }
+        });
     }
+});
 const elements = {
   mobileMenuButton: document.getElementById('mobile-menu-button'),
   mobileMenu: document.getElementById('mobile-menu'),
