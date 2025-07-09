@@ -123,7 +123,7 @@ const theme = {
   },
 
   toggle: () => {
-    if (elements.html.classList.contains('light')) {
+    if (elements.html.classList.contains('dark')) {
       theme.enableLightMode();
     } else {
       theme.enableDarkMode();
@@ -131,7 +131,7 @@ const theme = {
   },
 
   enableDarkMode: () => {
-    elements.html.classList.add('light');
+    elements.html.classList.add('dark');
     elements.themeToggle.innerHTML = '<i class="fas fa-moon text-xl"></i>';
     localStorage.setItem('theme', 'dark');
   },
