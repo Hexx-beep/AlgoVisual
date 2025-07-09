@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searching Algorithms | Algorithm Visualizer</title>
+    <link rel="stylesheet" href="search.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="back-button" class="back-button mr-4 p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h1 class="text-3xl font-bold animate-fade-in">
+                        <span class="inline-block hover:scale-105 transition-transform">
+                            <i class="fas fa-search mr-2"></i>Searching Algorithms
+                        </span>
+                    </h1>
+                </div>
+                <div>
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-2 text-indigo-100 animate-fade-in delay-100">
+                Visualize how different search algorithms work with interactive elements
+            </p>
+        </div>
+    </header>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="tutorial-modal">
+        <div class="tutorial-content">
+            <span class="close-tutorial">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 gradient-text">
+                <i class="fas fa-graduation-cap mr-2"></i>Search Algorithm Visualizer Tutorial
+            </h2>
+            
+            <div class="tutorial-step">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-300">1. Getting Started</h3>
+                <p class="text-gray-300">
+                    Welcome to the Search Algorithm Visualizer! This tool helps you understand how different search algorithms work by visualizing their step-by-step execution.
+                </p>
+            </div>
+            
+            <div class="tutorial-step">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-300">2. Selecting an Algorithm</h3>
+                <p class="text-gray-300">
+                    Use the dropdown menu to select between:
+                    <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-1">
+                        <li><strong>Linear Search</strong> - Checks each element sequentially</li>
+                        <li><strong>Binary Search</strong> - Efficient search on sorted arrays</li>
+                        <li><strong>Jump Search</strong> - Jumps in fixed steps then does linear search</li>
+                        <li><strong>Interpolation Search</strong> - Estimates position based on value distribution</li>
+                        <li><strong>Exponential Search</strong> - Finds range then does binary search</li>
+                    </ul>
+                </p>
+            </div>
+            
+            <div class="tutorial-step">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-300">3. Adjusting Parameters</h3>
+                <p class="text-gray-300">
+                    Customize your visualization:
+                    <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-1">
+                        <li><strong>Array Size</strong> - Change the number of elements (5-30)</li>
+                        <li><strong>Target Value</strong> - Set the value to search for (1-100)</li>
+                        <li><strong>Animation Speed</strong> - Control how fast the visualization runs</li>
+                        <li><strong>Custom Array</strong> - Input your own values if needed</li>
+                    </ul>
+                </p>
+            </div>
+            
+            <div class="tutorial-step">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-300">4. Color Legend</h3>
+                <div class="flex flex-wrap gap-4 mt-2">
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-blue-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Current element being checked</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-yellow-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Elements that have been checked</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-green-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Found target element</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-red-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Elements when target not found</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-purple-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Jump points in jump search</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 rounded-full bg-pink-500 inline-block mr-2"></span>
+                        <span class="text-gray-300">Partition points in interpolation search</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tutorial-step">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-300">5. Controls</h3>
+                <p class="text-gray-300">
+                    <ul class="list-disc pl-5 text-gray-300 mt-2 space-y-1">
+                        <li><strong>Start</strong> - Begin the visualization</li>
+                        <li><strong>Pause</strong> - Pause the current visualization</li>
+                        <li><strong>Reset</strong> - Reset to initial state</li>
+                        <li><strong>Generate New Array</strong> - Create a new random array</li>
+                    </ul>
+                </p>
+            </div>
+            
+            <div class="mt-6 bg-indigo-900/30 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold mb-2 text-indigo-300">Pro Tip</h3>
+                <p class="text-gray-300">
+                    Try comparing different algorithms with the same array and target value to see how their approaches differ in efficiency!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <ul class="flex space-x-1 py-4">
+                    
+                <div class="mb-4 md:mb-0">
+                    <button id="tutorial-btn" class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 rounded-lg text-white transition-colors animate-bounce">
+                        <i class="fas fa-question-circle mr-2"></i>Tutorial
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="mb-8 slide-in">
+            <h2 class="text-3xl font-bold mb-4 flex items-center gradient-text">
+                <i class="fas fa-search mr-3"></i> Search Algorithms
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300">
+                Visualize how different search algorithms work with interactive elements and real-time statistics.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 slide-in">
+                <h3 class="text-xl font-semibold mb-4">Search Controls</h3>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Algorithm</label>
+                    <select id="search-algorithm" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                        <option value="linear">Linear Search</option>
+                        <option value="binary">Binary Search</option>
+                        <option value="jump">Jump Search</option>
+                        <option value="interpolation">Interpolation Search</option>
+                        <option value="exponential">Exponential Search</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Array Size</label>
+                    <input id="search-array-size" type="range" min="5" max="30" value="10" class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span>5</span>
+                        <span id="current-search-array-size">10</span>
+                        <span>30</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4" id="search-target-container">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Value</label>
+                    <input id="search-target" type="number" min="1" max="100" value="50" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                
+                <div class="mb-4">
+                    <button id="toggle-custom-array" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors mb-2">
+                        <i class="fas fa-edit mr-2"></i>Custom Array
+                    </button>
+                    <div id="custom-array-input" class="custom-array-input">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Enter comma-separated values</label>
+                        <input id="custom-array-values" type="text" placeholder="e.g., 10,20,30,40,50" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white mb-2">
+                        <div class="flex space-x-2">
+                            <button id="load-custom-array" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-upload mr-2"></i>Load
+                            </button>
+                            <button id="save-custom-array" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-save mr-2"></i>Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Animation Speed</label>
+                    <input id="search-animation-speed" type="range" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span>Slow</span>
+                        <span>Medium</span>
+                        <span>Fast</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button id="start-search" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i>Start
+                    </button>
+                    <button id="pause-search" class="flex-1 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors disabled:opacity-50" disabled>
+                        <i class="fas fa-pause mr-2"></i>Pause
+                    </button>
+                    <button id="reset-search" class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-redo mr-2"></i>Reset
+                    </button>
+                </div>
+                
+                <div>
+                    <button id="new-search-array" class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
+                        <i class="fas fa-random mr-2"></i>Generate New Array
+                    </button>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 slide-in" style="animation-delay: 0.1s">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold">Search Visualization</h3>
+                    <div class="flex flex-wrap items-center gap-2 text-sm">
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-blue-500 inline-block mr-1"></span>
+                            <span>Current</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block mr-1"></span>
+                            <span>Checked</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-green-500 inline-block mr-1"></span>
+                            <span>Found</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-red-500 inline-block mr-1"></span>
+                            <span>Not Found</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-purple-500 inline-block mr-1"></span>
+                            <span>Jump</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-pink-500 inline-block mr-1"></span>
+                            <span>Partition</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="search-visualization" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 min-h-48 flex items-end justify-center space-x-1">
+                    <!-- Search items will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold mb-2">Search Status</h4>
+                    <div id="search-status" class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-600 dark:text-gray-300">Search results will appear here</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Comparisons</h4>
+                        <p id="search-comparisons" class="text-2xl font-bold">0</p>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Index</h4>
+                        <p id="search-index" class="text-2xl font-bold">-</p>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Time (ms)</h4>
+                        <p id="search-time" class="text-2xl font-bold">0</p>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Algorithm</h4>
+                        <p id="search-algo-name" class="text-2xl font-bold">Linear</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold mb-2">Algorithm Explanation</h4>
+                    <div id="search-explanation" class="text-gray-600 dark:text-gray-300">
+                        <p id="linear-search-explanation" class="mb-2">
+                            <strong>Linear Search</strong> checks each element in the array one by one from the start until 
+                            it finds the target value or reaches the end of the array. It works on both 
+                            sorted and unsorted arrays but has a time complexity of O(n) in the worst case.
+                        </p>
+                        <p id="binary-search-explanation" class="mb-2 hidden">
+                            <strong>Binary Search</strong> repeatedly divides the sorted array in half, checking if the 
+                            target value is in the left or right half until the target is found or the 
+                            search space is exhausted. This has a time complexity of O(log n) but requires 
+                            the array to be sorted.
+                        </p>
+                        <p id="jump-search-explanation" class="mb-2 hidden">
+                            <strong>Jump Search</strong> works on sorted arrays by jumping ahead by fixed steps 
+                            until it finds an element greater than the target, then performs a linear search 
+                            in the previous block. Optimal step size is √n, giving a time complexity of O(√n).
+                        </p>
+                        <p id="interpolation-search-explanation" class="mb-2 hidden">
+                            <strong>Interpolation Search</strong> is an improved binary search for uniformly distributed 
+                            sorted arrays. It estimates the position of the target based on the key values, 
+                            achieving average case complexity of O(log log n) but O(n) in worst case.
+                        </p>
+                        <p id="exponential-search-explanation" class="mb-2 hidden">
+                            <strong>Exponential Search</strong> finds the range where the target might be by doubling the 
+                            index until finding a range that contains the target, then performs binary search 
+                            within that range. Time complexity is O(log n) and works well for unbounded searches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 slide-in" style="animation-delay: 0.2s">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Pseudocode</h3>
+                <div class="tooltip">
+                    <button id="copy-pseudocode" class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm">
+                        <i class="fas fa-copy mr-1"></i>Copy
+                    </button>
+                    <span class="tooltiptext">Copy pseudocode to clipboard</span>
+                </div>
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg overflow-auto max-h-64 font-mono text-sm">
+                <pre id="linear-search-pseudocode">
+<span class="code-line">function linearSearch(array, target):</span>
+<span class="code-line">    for index from 0 to length(array) - 1:</span>
+<span class="code-line">        if array[index] == target:</span>
+<span class="code-line">            return index  // Element found</span>
+<span class="code-line">    return -1  // Element not found</span>
+                </pre>
+                <pre id="binary-search-pseudocode" class="hidden">
+<span class="code-line">function binarySearch(array, target):</span>
+<span class="code-line">    left = 0</span>
+<span class="code-line">    right = length(array) - 1</span>
+<span class="code-line"></span>
+<span class="code-line">    while left <= right:</span>
+<span class="code-line">        mid = floor((left + right) / 2)</span>
+<span class="code-line">        if array[mid] < target:</span>
+<span class="code-line">            left = mid + 1</span>
+<span class="code-line">        else if array[mid] > target:</span>
+<span class="code-line">            right = mid - 1</span>
+<span class="code-line">        else:</span>
+<span class="code-line">            return mid  // Target found</span>
+<span class="code-line">    return -1  // Target not found</span>
+                </pre>
+                <pre id="jump-search-pseudocode" class="hidden">
+<span class="code-line">function jumpSearch(array, target):</span>
+<span class="code-line">    n = length(array)</span>
+<span class="code-line">    step = floor(√n)</span>
+<span class="code-line">    prev = 0</span>
+<span class="code-line"></span>
+<span class="code-line">    // Jump ahead in steps</span>
+<span class="code-line">    while array[min(step, n)-1] < target:</span>
+<span class="code-line">        prev = step</span>
+<span class="code-line">        step += floor(√n)</span>
+<span class="code-line">        if prev >= n:</span>
+<span class="code-line">            return -1</span>
+<span class="code-line"></span>
+<span class="code-line">    // Linear search in the block</span>
+<span class="code-line">    while array[prev] < target:</span>
+<span class="code-line">        prev++</span>
+<span class="code-line">        if prev == min(step, n):</span>
+<span class="code-line">            return -1</span>
+<span class="code-line"></span>
+<span class="code-line">    if array[prev] == target:</span>
+<span class="code-line">        return prev</span>
+<span class="code-line">    return -1</span>
+                </pre>
+                <pre id="interpolation-search-pseudocode" class="hidden">
+<span class="code-line">function interpolationSearch(array, target):</span>
+<span class="code-line">    low = 0</span>
+<span class="code-line">    high = length(array) - 1</span>
+<span class="code-line"></span>
+<span class="code-line">    while low <= high and target >= array[low] and target <= array[high]:</span>
+<span class="code-line">        // Estimate position using interpolation formula</span>
+<span class="code-line">        pos = low + floor(((target - array[low]) * (high - low)) / (array[high] - array[low]))</span>
+<span class="code-line"></span>
+<span class="code-line">        if array[pos] == target:</span>
+<span class="code-line">            return pos</span>
+<span class="code-line">        if array[pos] < target:</span>
+<span class="code-line">            low = pos + 1</span>
+<span class="code-line">        else:</span>
+<span class="code-line">            high = pos - 1</span>
+<span class="code-line"></span>
+<span class="code-line">    return -1</span>
+                </pre>
+                <pre id="exponential-search-pseudocode" class="hidden">
+<span class="code-line">function exponentialSearch(array, target):</span>
+<span class="code-line">    // If target is at first position</span>
+<span class="code-line">    if array[0] == target:</span>
+<span class="code-line">        return 0</span>
+<span class="code-line"></span>
+<span class="code-line">    // Find range for binary search by doubling index</span>
+<span class="code-line">    i = 1</span>
+<span class="code-line">    while i < length(array) and array[i] <= target:</span>
+<span class="code-line">        i = i * 2</span>
+<span class="code-line"></span>
+<span class="code-line">    // Perform binary search in the found range</span>
+<span class="code-line">    return binarySearch(array, target, i/2, min(i, length(array)-1))</span>
+                </pre>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 dark:bg-gray-900 text-gray-300 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-project-diagram mr-2 text-indigo-400"></i> Algorithm Visualizer
+                    </h3>
+                    <p class="text-sm mt-1">Interactive algorithm visualization for better understanding</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-indigo-400 transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-indigo-400 transition-colors">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-indigo-400 transition-colors">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-sm text-center md:text-left">
+                <p>&copy; 2025 Algorithm Visualizer. All rights reserved.</p>
+                <p class="mt-1 text-gray-500">Built with HTML, CSS, JavaScript, and D3.js by ALARIC P</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="search.js"></script>
+</body>
+</html>
