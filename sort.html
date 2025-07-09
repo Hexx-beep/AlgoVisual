@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Sorting Visualizer | Algorithm Explorer</title>
+    <link rel="stylesheet" href="sort.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen transition-colors duration-300">
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-900 dark:to-purple-900 text-white shadow-xl">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold animate-fade-in">
+                    <span class="inline-block hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-sort-amount-down-alt mr-2"></i>Advanced Sorting Visualizer
+                    </span>
+                </h1>
+                <div class="flex items-center space-x-2">
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-800 transition-colors duration-300 tooltip">
+                        <i class="fas fa-moon dark:fa-sun text-yellow-300 dark:text-yellow-200"></i>
+                        <span class="tooltip-text">Toggle Theme</span>
+                    </button>
+                    <button id="tutorial-btn" class="p-2 rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-800 transition-colors duration-300 tooltip">
+                        <i class="fas fa-question-circle text-blue-200"></i>
+                        <span class="tooltip-text">Start Tutorial</span>
+                    </button>
+                    <button id="back-btn" class="p-2 rounded-full hover:bg-indigo-700 dark:hover:bg-indigo-800 transition-colors duration-300 tooltip">
+                        <i class="fas fa-arrow-left text-blue-200"></i>
+                        <span class="tooltip-text">Back to Home</span>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-2 text-indigo-100 dark:text-indigo-200 animate-fade-in animate-delay-100">
+                Interactive visualization and comparison of sorting algorithms with educational features
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 animate-fade-in animate-delay-200">
+        <!-- Tutorial Modal -->
+        <div id="tutorial-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold" id="tutorial-title">Tutorial</h3>
+                    <button id="close-tutorial" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="tutorial-content" class="mb-4">
+                    <!-- Tutorial content will be inserted here -->
+                </div>
+                <div class="flex justify-end">
+                    <button id="next-tutorial-step" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Control Panel -->
+            <div class="lg:col-span-1 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 transition-all duration-300">
+                <h3 class="text-xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">Controls</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Algorithm</label>
+                    <select id="sort-algorithm" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white transition-all duration-300">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="heap">Heap Sort</option>
+                        <option value="tim">Tim Sort</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Array Size</label>
+                    <input id="array-size" type="range" min="5" max="50" value="15" class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer transition-opacity duration-300 hover:opacity-100">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <span>5</span>
+                        <span id="current-array-size" class="font-medium">15</span>
+                        <span>50</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Animation Speed</label>
+                    <input id="animation-speed" type="range" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer transition-opacity duration-300 hover:opacity-100">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <span>Slow</span>
+                        <span>Medium</span>
+                        <span>Fast</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Custom Array</label>
+                    <div class="flex">
+                        <input id="custom-array" type="text" placeholder="e.g., 5,3,8,1" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg dark:bg-gray-700">
+                        <button id="load-custom-array" class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700 transition-colors">
+                            Load
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <button id="start-sorting" class="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-inner group relative overflow-hidden">
+                        <i class="fas fa-play mr-2"></i>Start
+                    </button>
+                    <button id="pause-sorting" class="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-inner group relative overflow-hidden disabled:opacity-50" disabled>
+                        <i class="fas fa-pause mr-2"></i>Pause
+                    </button>
+                    <button id="reset-sorting" class="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-inner group relative overflow-hidden">
+                        <i class="fas fa-redo mr-2"></i>Reset
+                    </button>
+                </div>
+                
+                <div>
+                    <button id="new-array" class="w-full px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-inner group relative overflow-hidden">
+                        <i class="fas fa-random mr-2"></i>Generate New Array
+                    </button>
+                </div>
+                
+                <div class="mt-6">
+                    <button id="run-benchmark" class="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-inner group relative overflow-hidden">
+                        <i class="fas fa-tachometer-alt mr-2"></i>Run Benchmark
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Visualization Panel -->
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 dark:text-indigo-400">Visualization</h3>
+                    <div class="flex items-center space-x-4 text-sm">
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block mr-1"></span>
+                            <span>Comparison</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-green-500 inline-block mr-1"></span>
+                            <span>Sorted</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-red-500 inline-block mr-1"></span>
+                            <span>Swap</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 rounded-full bg-pink-500 inline-block mr-1"></span>
+                            <span>Pivot</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sorting-visualization" class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 sorting-visualization-container flex items-end overflow-hidden transition-all duration-300">
+                    <!-- Sorting bars will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg transition-all duration-300">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Comparisons</h4>
+                        <p id="comparison-count" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">0</p>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg transition-all duration-300">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Swaps</h4>
+                        <p id="swap-count" class="text-2xl font-bold text-green-600 dark:text-green-400">0</p>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg transition-all duration-300">
+                        <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Time (ms)</h4>
+                        <p id="time-count" class="text-2xl font-bold text-purple-600 dark:text-purple-400">0</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold mb-3 text-indigo-600 dark:text-indigo-400">Algorithm Pseudocode</h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 transition-all duration-300">
+                        <pre id="pseudocode" class="text-sm font-mono overflow-auto max-h-40"></pre>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold mb-3 text-indigo-600 dark:text-indigo-400">Algorithm Explanation</h4>
+                    <div id="sorting-explanation" class="text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg p-4 transition-all duration-300">
+                        <p class="mb-2">Select an algorithm to see its explanation.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold mb-3 text-indigo-600 dark:text-indigo-400">Time Complexity Comparison</h4>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 transition-all duration-300">
+                        <canvas id="complexity-chart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Benchmark Results Modal -->
+    <div id="benchmark-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Benchmark Results</h3>
+                <button id="close-benchmark" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-4">
+                <canvas id="benchmark-chart" height="300"></canvas>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Array Size</th>
+                            <th scope="col" class="px-6 py-3">Bubble Sort</th>
+                            <th scope="col" class="px-6 py-3">Selection Sort</th>
+                            <th scope="col" class="px-6 py-3">Insertion Sort</th>
+                            <th scope="col" class="px-6 py-3">Merge Sort</th>
+                            <th scope="col" class="px-6 py-3">Quick Sort</th>
+                        </tr>
+                    </thead>
+                    <tbody id="benchmark-results">
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="close-benchmark-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="sort.js"></script>
+</body>
+</html>
