@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Page transition for back button
     document.getElementById('show-register').addEventListener('click', (e) => {
         e.preventDefault();
-        window.location.href = 'index_code.html';
+        window.location.href = 'index.html';
     });
 
     // Tree data structure
