@@ -2,67 +2,78 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Algorithm Visualizer</title>
     <link rel="stylesheet" href="graph.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
-    <header class="bg-slate-900 border-b border-slate-800 p-4 flex justify-between items-center">
-        <div class="flex items-center space-x-4">
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-teal-400 to-amber-300 bg-clip-text text-transparent">
-                Algorithm Visualizer
+    <header class="bg-slate-900 border-b border-slate-800 p-2 sm:p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2 sm:space-x-4">
+            <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-400 to-amber-300 bg-clip-text text-transparent">
+                AlgoVis
             </h1>
-            <div class="flex space-x-2">
-                <button id="theme-toggle" class="p-3 rounded-full hover:bg-indigo-600/30 transition-colors shadow-lg">
-                        <i class="fas fa-sun text-xl"></i> <!-- Changed from fa-moon to fa-sun -->
-                    </button>
-                <button class="p-2 rounded-full hover:bg-slate-800 tooltip">
-                    <i class="fas fa-cog glow-effect text-slate-300"></i>
-                    <span class="tooltip-text">Settings</span>
+            <div class="flex space-x-1 sm:space-x-2">
+                <button id="theme-toggle" class="p-2 sm:p-3 rounded-full hover:bg-indigo-600/30 transition-colors shadow-lg">
+                    <i class="fas fa-sun text-lg sm:text-xl"></i>
                 </button>
-                <button id="back-btn" class="p-2 rounded-full hover:bg-slate-800 tooltip">
+                <button id="mobile-menu-button" class="mobile-menu-button p-2 rounded-full hover:bg-slate-800">
+                    <i class="fas fa-bars glow-effect text-slate-300"></i>
+                </button>
+                <button id="back-btn" class="p-2 rounded-full hover:bg-slate-800 tooltip hidden sm:block">
                    <i class="fas fa-arrow-left glow-effect text-blue-300"></i>
-                      <span class="tooltip-text">Back to Home</span>
+                   <span class="tooltip-text">Back to Home</span>
                 </button>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center space-x-2">
-                <i class="fas fa-question-circle"></i>
-                <span>Help</span>
-            </button>
-            <button id="run-algorithm" class="px-4 py-2 bg-gradient-to-r from-teal-500 to-blue-500 hover:opacity-90 rounded-lg flex items-center space-x-2">
-                <i class="fas fa-play"></i>
-                <span>Run</span>
+        <div class="flex items-center space-x-2 sm:space-x-4">
+            <button id="run-algorithm" class="px-3 py-1 sm:px-4 sm:py-2 bg-gradient-to-r from-teal-500 to-blue-500 hover:opacity-90 rounded-lg flex items-center space-x-1 sm:space-x-2">
+                <i class="fas fa-play text-sm sm:text-base"></i>
+                <span class="hidden sm:inline">Run</span>
             </button>
         </div>
     </header>
 
-    <div class="main-container flex flex-1 overflow-hidden">
-        <div class="graph-container relative flex-1 p-4">
-            <div class="absolute top-4 left-4 z-10 flex space-x-2">
-                <div class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-2 flex items-center space-x-2">
-                    <span class="text-sm text-slate-300">Nodes:</span>
+    <!-- Mobile menu (hidden by default) -->
+    <div id="mobile-menu" class="bg-slate-900 border-b border-slate-800 p-4 hidden sm:hidden">
+        <div class="grid grid-cols-2 gap-2">
+            <button class="px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center">
+                <i class="fas fa-question-circle mr-2"></i>
+                Help
+            </button>
+            <button id="back-btn-mobile" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back
+            </button>
+            <button id="export-btn-mobile" class="px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 rounded text-sm flex items-center justify-center col-span-2">
+                <i class="fas fa-video mr-2"></i>
+                Export Visualization
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container flex flex-1 overflow-hidden flex-col sm:flex-row">
+        <div class="graph-container relative flex-1 p-2 sm:p-4">
+            <div class="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 flex space-x-1 sm:space-x-2">
+                <div class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-1 sm:p-2 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                    <span class="text-slate-300">Nodes:</span>
                     <span id="node-counter" class="font-mono text-amber-300">0</span>
                 </div>
-                <div class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-2 flex items-center space-x-2">
-                    <span class="text-sm text-slate-300">Edges:</span>
+                <div class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-1 sm:p-2 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                    <span class="text-slate-300">Edges:</span>
                     <span id="edge-counter" class="font-mono text-teal-300">0</span>
                 </div>
-                <div class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-2 flex items-center space-x-2 hidden" id="graph-selector-container">
-                    <span class="text-sm text-slate-300">Graph:</span>
-                    <select id="graph-selector" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-sm">
-                        <option value="1">Graph 1</option>
-                        <option value="2">Graph 2</option>
-                    </select>
-                </div>
+                <button id="color-key-toggle" class="bg-slate-900/80 backdrop-blur-sm rounded-lg p-1 sm:p-2 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                    <i class="fas fa-palette text-purple-300"></i>
+                    <span class="hidden sm:inline">Colors</span>
+                </button>
             </div>
             
-            <div id="color-key-legend" class="absolute top-4 right-4 z-10 bg-slate-900/80 backdrop-blur-sm rounded-lg p-3 hidden">
-                <h3 class="text-sm font-semibold text-slate-200 mb-2">Color Key</h3>
-                <div class="space-y-1">
+            <div id="color-key-legend" class="absolute top-2 sm:top-4 right-2 sm:right-4 z-10 bg-slate-900/80 backdrop-blur-sm rounded-lg p-2 sm:p-3 hidden max-h-[70vh] overflow-y-auto">
+                <h3 class="text-xs sm:text-sm font-semibold text-slate-200 mb-1 sm:mb-2">Color Key</h3>
+                <div class="space-y-1 text-xs sm:text-sm">
                     <div class="color-key-item">
                         <div class="color-key-color bg-teal-400"></div>
                         <span>Visited Node</span>
@@ -107,44 +118,11 @@
                         <div class="color-key-color bg-rose-500"></div>
                         <span>Rejected Edge</span>
                     </div>
-                    <!-- Graph coloring color key items -->
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-blue-500"></div>
-                        <span>Color 0 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-red-500"></div>
-                        <span>Color 1 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-green-500"></div>
-                        <span>Color 2 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-yellow-500"></div>
-                        <span>Color 3 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-blue-500"></div>
-                        <span>Color 0 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-red-500"></div>
-                        <span>Color 1 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-green-500"></div>
-                        <span>Color 2 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-yellow-500"></div>
-                        <span>Color 3 (Edge)</span>
-                    </div>
                 </div>
             </div>
             
-            <div class="graph-canvas w-full h-full rounded-xl relative overflow-hidden" id="graph-canvas">
-                <svg id="graph-svg" class="w-full h-full">
+            <div class="graph-canvas w-full h-full rounded-lg sm:rounded-xl relative overflow-hidden touch-none" id="graph-canvas">
+                <svg id="graph-svg" class="w-full h-full touch-none">
                     <defs>
                         <marker id="arrowhead" markerWidth="10" markerHeight="7" 
                         refX="9" refY="3.5" orient="auto" class="arrowhead">
@@ -168,10 +146,10 @@
                         </marker>
                     </defs>
                 </svg>
-                <div id="nodes-container" class="absolute inset-0"></div>
+                <div id="nodes-container" class="absolute inset-0 touch-none"></div>
             </div>
             
-            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-900/80 backdrop-blur-sm rounded-lg p-2 flex space-x-2">
+            <div class="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-900/80 backdrop-blur-sm rounded-lg p-1 sm:p-2 flex flex-wrap justify-center gap-1 sm:gap-2 max-w-[95vw]">
                 <button id="add-node-btn" class="p-2 hover:bg-slate-800 rounded tooltip">
                     <i class="fas fa-plus text-teal-300"></i>
                     <span class="tooltip-text">Add Node</span>
@@ -184,13 +162,13 @@
                     <i class="fas fa-trash-alt text-rose-500"></i>
                     <span class="tooltip-text">Clear Graph</span>
                 </button>
-                <button id="delete-all-graphs-btn" class="p-2 bg-red-600 hover:bg-red-700 text-white rounded tooltip">
-                    <i class="fas fa-trash-alt mr-1"></i>
-                    Delete ALL Graphs
-                    <span class="tooltip-text">Permanently delete both Graph 1 and Graph 2</span>
+                <button id="delete-all-graphs-btn" class="p-2 bg-red-600 hover:bg-red-700 text-white rounded tooltip text-xs sm:text-sm">
+                    <i class="fas fa-trash-alt mr-0 sm:mr-1"></i>
+                    <span class="hidden sm:inline">Delete ALL Graphs</span>
+                    <span class="sm:hidden">Delete All</span>
                 </button>
-               <button id="new-graph-btn" class="p-2 hover:bg-slate-800 rounded tooltip">
-                    <i class="fas fa-plus-circle glow-effect text-blue-300"></i>
+                <button id="new-graph-btn" class="p-2 hover:bg-slate-800 rounded tooltip">
+                    <i class="fas fa-plus-circle text-blue-300"></i>
                     <span class="tooltip-text">New Graph</span>
                 </button>
                 <button id="save-as-graph2-btn" class="p-2 hover:bg-slate-800 rounded tooltip">
@@ -204,136 +182,113 @@
                 <div class="context-menu-item" id="delete-node-btn">
                     <i class="fas fa-trash mr-2 text-rose-500"></i>Delete Node
                 </div>
+                <div class="context-menu-item" id="set-start-node-btn">
+                    <i class="fas fa-play mr-2 text-emerald-500"></i>Set as Start
+                </div>
+                <div class="context-menu-item" id="set-end-node-btn">
+                    <i class="fas fa-flag mr-2 text-blue-500"></i>Set as End
+                </div>
             </div>
             
             <div id="edge-context-menu" class="edge-context-menu">
                 <div class="context-menu-item" id="delete-edge-btn">
                     <i class="fas fa-trash mr-2 text-rose-500"></i>Delete Edge
                 </div>
+                <div class="context-menu-item" id="edit-edge-btn">
+                    <i class="fas fa-edit mr-2 text-amber-500"></i>Edit Weight
+                </div>
             </div>
         </div>
 
-        <div class="sidebar w-80 bg-slate-900 border-l border-slate-800 overflow-y-auto flex flex-col">
-            <div class="p-4 border-b border-slate-800">
+        <div class="sidebar w-full sm:w-80 bg-slate-900 border-l border-slate-800 overflow-y-auto flex flex-col">
+            <div class="p-3 sm:p-4 border-b border-slate-800">
                 <h2 class="text-lg font-semibold text-slate-200 mb-2">Algorithm Selection</h2>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="prim">
-                        <i class="fas fa-project-diagram mr-2 text-teal-300"></i>
+                <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 algorithm-buttons">
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="prim">
+                        <i class="fas fa-project-diagram mr-1 sm:mr-2 text-teal-300"></i>
                         Prim's
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="kruskal">
-                        <i class="fas fa-network-wired mr-2 text-amber-300"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="kruskal">
+                        <i class="fas fa-network-wired mr-1 sm:mr-2 text-amber-300"></i>
                         Kruskal's
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="dijkstra">
-                        <i class="fas fa-route mr-2 text-blue-300"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="dijkstra">
+                        <i class="fas fa-route mr-1 sm:mr-2 text-blue-300"></i>
                         Dijkstra's
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="kuratowski">
-                        <i class="fas fa-ban mr-2 text-rose-500"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="kuratowski">
+                        <i class="fas fa-ban mr-1 sm:mr-2 text-rose-500"></i>
                         Kuratowski
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="hamiltonian">
-                        <i class="fas fa-infinity mr-2 text-purple-300"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="hamiltonian">
+                        <i class="fas fa-infinity mr-1 sm:mr-2 text-purple-300"></i>
                         Hamiltonian
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="eulerian">
-                        <i class="fas fa-circle-nodes mr-2 text-green-300"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="eulerian">
+                        <i class="fas fa-circle-nodes mr-1 sm:mr-2 text-green-300"></i>
                         Eulerian
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="vertex-coloring">
-                        <i class="fas fa-palette mr-2 text-blue-300"></i>
-                        Vertex Coloring
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="vertex-coloring">
+                        <i class="fas fa-palette mr-1 sm:mr-2 text-blue-300"></i>
+                        Vertex Color
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="edge-coloring">
-                        <i class="fas fa-brush mr-2 text-purple-300"></i>
-                        Edge Coloring
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="edge-coloring">
+                        <i class="fas fa-brush mr-1 sm:mr-2 text-purple-300"></i>
+                        Edge Color
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="bipartite-check">
-                        <i class="fas fa-code-branch mr-2 text-green-300"></i>
-                        Bipartite Check
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="bipartite-check">
+                        <i class="fas fa-code-branch mr-1 sm:mr-2 text-green-300"></i>
+                        Bipartite
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="isomorphism">
-                        <i class="fas fa-equals mr-2 text-indigo-300"></i>
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="isomorphism">
+                        <i class="fas fa-equals mr-1 sm:mr-2 text-indigo-300"></i>
                         Isomorphism
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="huffman">
-                        <i class="fas fa-barcode mr-2 text-indigo-300"></i>
-                        Huffman Coding
+                    <button class="algorithm-btn px-2 py-1 sm:px-3 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm flex items-center justify-center" data-algo="huffman">
+                        <i class="fas fa-barcode mr-1 sm:mr-2 text-indigo-300"></i>
+                        Huffman
                     </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="notation-conversion">
-                        <i class="fas fa-exchange-alt mr-2 text-blue-300"></i>
-                        Notation Conversion
-                    </button>
-                    <button class="algorithm-btn px-3 py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm flex items-center justify-center" data-algo="expression-tree">
-                        <i class="fas fa-tree mr-2 text-green-300"></i>
-                        Expression Tree
-                    </button>
-</div>
+                </div>
                 
-                <div id="algorithm-explanation" class="algorithm-explanation mt-4 hidden">
-                    <h3 id="algo-title" class="text-lg font-semibold"></h3>
-                    <p id="algo-description"></p>
+                <div id="algorithm-explanation" class="algorithm-explanation mt-2 sm:mt-4 hidden text-xs sm:text-sm">
+                    <h3 id="algo-title" class="text-sm sm:text-lg font-semibold"></h3>
+                    <p id="algo-description" class="mb-1"></p>
                     <p id="algo-complexity" class="text-xs text-slate-500"></p>
                 </div>
             </div>
             
-            <div id="algorithm-params" class="p-4 border-b border-slate-800 hidden">
-                <h2 class="text-lg font-semibold text-slate-200 mb-2">Algorithm Parameters</h2>
-                <div class="space-y-3">
+            <div id="algorithm-params" class="p-3 sm:p-4 border-b border-slate-800 hidden">
+                <h2 class="text-lg font-semibold text-slate-200 mb-2">Parameters</h2>
+                <div class="space-y-2 sm:space-y-3">
                     <div id="start-node-container">
-                        <label class="block text-sm text-slate-400 mb-1">Start Node</label>
-                        <select id="start-node" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 mb-1">Start Node</label>
+                        <select id="start-node" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm">
                             <!-- Nodes will be populated here -->
                         </select>
                     </div>
                     <div id="end-node-container" class="hidden">
-                        <label class="block text-sm text-slate-400 mb-1">End Node</label>
-                        <select id="end-node" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 mb-1">End Node</label>
+                        <select id="end-node" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm">
                             <!-- Nodes will be populated here -->
                         </select>
                     </div>
                 </div>
             </div>
-            <div id="huffman-params" class="p-4 border-b border-slate-800 hidden">
-                <h2 class="text-lg font-semibold text-slate-200 mb-2">Huffman Coding Parameters</h2>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-sm text-slate-400 mb-1">Input Text</label>
-                        <textarea id="huffman-input-text" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm h-24" placeholder="Enter text to analyze"></textarea>
-                    </div>
-                    <div class="text-center text-sm text-slate-400">OR</div>
-                    <div id="custom-frequencies">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-slate-300">Custom Frequencies</span>
-                            <button id="add-frequency-btn" class="p-1 bg-slate-700 hover:bg-slate-600 rounded text-xs">
-                                <i class="fas fa-plus mr-1"></i>Add
-                            </button>
-                        </div>
-                        <div id="frequency-inputs" class="space-y-2">
-                            <!-- Frequency inputs will be added here -->
-                        </div>
-                    </div>
-                    <button id="analyze-frequencies-btn" class="w-full py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm">
-                        Analyze Frequencies
-                    </button>
-                </div>
-            </div>
             
-            <div class="p-4 border-b border-slate-800">
+            <div class="p-3 sm:p-4 border-b border-slate-800">
                 <h2 class="text-lg font-semibold text-slate-200 mb-2">Graph Properties</h2>
-                <div class="space-y-3">
+                <div class="space-y-2 sm:space-y-3">
                     <div>
-                        <label class="block text-sm text-slate-400 mb-1">Graph Type</label>
-                        <select id="graph-type" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 mb-1">Graph Type</label>
+                        <select id="graph-type" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm">
                             <option value="undirected">Undirected</option>
                             <option value="directed">Directed</option>
                             <option value="weighted">Weighted</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 mb-1">Graph Structure</label>
-                        <select id="graph-structure" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 mb-1">Graph Structure</label>
+                        <select id="graph-structure" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm">
                             <option value="random">Random Graph</option>
                             <option value="cycle">Cycle Graph (Cn)</option>
                             <option value="complete">Complete Graph (Kn)</option>
@@ -345,7 +300,7 @@
                     <!-- Parameters for Random Graph -->
                     <div id="random-graph-params">
                         <div>
-                            <label class="block text-sm text-slate-400 mb-1">Nodes</label>
+                            <label class="block text-xs sm:text-sm text-slate-400 mb-1">Nodes</label>
                             <input id="node-count" type="range" min="3" max="20" value="8" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
                             <div class="flex justify-between text-xs text-slate-400">
                                 <span>3</span>
@@ -354,7 +309,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm text-slate-400 mb-1">Density (%)</label>
+                            <label class="block text-xs sm:text-sm text-slate-400 mb-1">Density (%)</label>
                             <input id="density" type="range" min="10" max="90" value="40" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
                             <div class="flex justify-between text-xs text-slate-400">
                                 <span>10</span>
@@ -364,10 +319,10 @@
                         </div>
                     </div>
                     
-                    <!-- Parameters for Cycle Graph -->
+                    <!-- Parameters for other graph types -->
                     <div id="cycle-graph-params" class="hidden">
                         <div>
-                            <label class="block text-sm text-slate-400 mb-1">Cycle Size (n)</label>
+                            <label class="block text-xs sm:text-sm text-slate-400 mb-1">Cycle Size (n)</label>
                             <input id="cycle-size" type="range" min="3" max="20" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
                             <div class="flex justify-between text-xs text-slate-400">
                                 <span>3</span>
@@ -377,95 +332,51 @@
                         </div>
                     </div>
                     
-                    <!-- Parameters for Complete Graph -->
-                    <div id="complete-graph-params" class="hidden">
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Complete Graph Size (n)</label>
-                            <input id="complete-size" type="range" min="2" max="20" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-                            <div class="flex justify-between text-xs text-slate-400">
-                                <span>2</span>
-                                <span id="complete-size-value">5</span>
-                                <span>20</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Parameters for Wheel Graph -->
-                    <div id="wheel-graph-params" class="hidden">
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Wheel Size (n)</label>
-                            <input id="wheel-size" type="range" min="4" max="20" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-                            <div class="flex justify-between text-xs text-slate-400">
-                                <span>4</span>
-                                <span id="wheel-size-value">5</span>
-                                <span>20</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Parameters for Complete Bipartite Graph -->
-                    <div id="bipartite-graph-params" class="hidden">
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Partition A Size (m)</label>
-                            <input id="bipartite-m" type="range" min="1" max="10" value="3" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-                            <div class="flex justify-between text-xs text-slate-400">
-                                <span>1</span>
-                                <span id="bipartite-m-value">3</span>
-                                <span>10</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Partition B Size (n)</label>
-                            <input id="bipartite-n" type="range" min="1" max="10" value="3" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
-                            <div class="flex justify-between text-xs text-slate-400">
-                                <span>1</span>
-                                <span id="bipartite-n-value">3</span>
-                                <span>10</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button id="generate-btn" class="w-full py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm">
+                    <button id="generate-btn" class="w-full py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm">
                         Generate Graph
                     </button>
                 </div>
             </div>
             
-            <div class="p-4 border-b border-slate-800">
+            <div class="p-3 sm:p-4 border-b border-slate-800">
                 <h2 class="text-lg font-semibold text-slate-200 mb-2">Edge Creation</h2>
-                <div id="edge-creation-panel" class="hidden space-y-3">
+                <div id="edge-creation-panel" class="hidden space-y-2 sm:space-y-3">
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-slate-300">Connecting:</span>
-                        <span id="connecting-nodes" class="font-mono text-amber-300">Node A to Node B</span>
+                        <span class="text-xs sm:text-sm text-slate-300">Connecting:</span>
+                        <span id="connecting-nodes" class="font-mono text-amber-300 text-xs sm:text-sm">Node A to Node B</span>
                     </div>
                     <div class="flex items-center space-x-2">
                         <input type="checkbox" id="directed-edge" class="rounded bg-slate-800 border-slate-700 text-teal-400 focus:ring-teal-400">
-                        <label for="directed-edge" class="text-sm text-slate-400">Directed Edge</label>
+                        <label for="directed-edge" class="text-xs sm:text-sm text-slate-400">Directed Edge</label>
                     </div>
                     <div id="weight-container" class="hidden">
-                        <label class="block text-sm text-slate-400 mb-1">Weight</label>
-                        <input id="edge-weight" type="number" min="1" value="1" class="w-full bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 mb-1">Weight</label>
+                        <input id="edge-weight" type="number" min="1" value="1" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="confirm-edge-btn" class="py-2 bg-teal-600 hover:bg-teal-500 rounded text-sm">
+                        <button id="confirm-edge-btn" class="py-2 bg-teal-600 hover:bg-teal-500 rounded text-xs sm:text-sm">
                             Confirm
                         </button>
-                        <button id="cancel-edge-btn" class="py-2 bg-slate-800 hover:bg-slate-700 rounded text-sm">
+                        <button id="cancel-edge-btn" class="py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm">
                             Cancel
                         </button>
                     </div>
                 </div>
-                <div id="no-edge-creation" class="text-sm text-slate-400">
+                <div id="no-edge-creation" class="text-xs sm:text-sm text-slate-400">
                     Click on a node to start creating an edge
                 </div>
             </div>
             
-            <div class="p-4 flex-1">
-                <h2 class="text-lg font-semibold text-slate-200 mb-2">Graph Controls</h2>
-                <div class="mt-4">
-                    <button id="export-btn" class="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 rounded-lg text-sm">
-                        <i class="fas fa-video mr-2"></i>
-                        Export Visualization
+            <div class="p-3 sm:p-4 flex-1">
+                <h2 class="text-lg font-semibold text-slate-200 mb-2">Controls</h2>
+                <div class="grid grid-cols-2 gap-2 graph-controls">
+                    <button id="export-btn" class="py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 rounded text-xs sm:text-sm">
+                        <i class="fas fa-video mr-1 sm:mr-2"></i>
+                        Export
+                    </button>
+                    <button id="help-btn" class="py-2 bg-slate-800 hover:bg-slate-700 rounded text-xs sm:text-sm">
+                        <i class="fas fa-question-circle mr-1 sm:mr-2"></i>
+                        Help
                     </button>
                 </div>
             </div>
@@ -473,34 +384,36 @@
     </div>
 
     <!-- Results section below the graph -->
-    <div class="results-container bg-slate-900 border-t border-slate-800 p-4">
+    <div class="results-container bg-slate-900 border-t border-slate-800 p-2 sm:p-4">
         <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-slate-200">Algorithm Results</h2>
+            <div class="flex justify-between items-center mb-2 sm:mb-4">
+                <h2 class="text-lg sm:text-xl font-semibold text-slate-200">Results</h2>
                 <button id="toggle-results" class="text-slate-400 hover:text-slate-200">
                     <i class="fas fa-chevron-down"></i>
                 </button>
             </div>
             
-            <div id="algorithm-results" class="bg-slate-800 rounded-lg p-4 overflow-auto">
-                <div id="no-results" class="text-slate-400 text-center py-4">
+            <div id="algorithm-results" class="bg-slate-800 rounded-lg p-2 sm:p-4 overflow-auto max-h-[40vh]">
+                <div id="no-results" class="text-slate-400 text-center py-4 text-sm sm:text-base">
                     Run an algorithm to see results
                 </div>
                 <div id="results-table-container" class="hidden">
-                    <table class="results-table w-full">
-                        <thead>
-                            <tr>
-                                <th>Node</th>
-                                <th>Distance</th>
-                                <th>Path</th>
-                            </tr>
-                        </thead>
-                        <tbody id="results-table-body">
-                            <!-- Results will be inserted here -->
-                        </tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="results-table w-full text-xs sm:text-sm">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="p-1 sm:p-2">Node</th>
+                                    <th class="p-1 sm:p-2">Distance</th>
+                                    <th class="p-1 sm:p-2">Path</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-table-body">
+                                <!-- Results will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div id="isomorphism-results" class="hidden">
+                <div id="isomorphism-results" class="hidden text-xs sm:text-sm">
                     <!-- Isomorphism results will be inserted here -->
                 </div>
             </div>
@@ -508,6 +421,6 @@
     </div>
 
     <script src="graph.js"></script>
-
+    
 </body>
-
+</html>
