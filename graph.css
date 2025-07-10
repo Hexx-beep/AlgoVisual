@@ -2,6 +2,27 @@
     0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
 }
+.graph-container {
+        width: 70%; /* Reduced from full width */
+        height: 75vh; /* Fixed height instead of flex-1 */
+    }
+    
+    .sidebar {
+        width: 30%; /* Adjusted to match the 70-30 split */
+    }
+    
+    .main-container {
+        flex-direction: row; /* Ensure side-by-side layout */
+    }
+.main-container {
+        flex-direction: column;
+    }
+    
+    @media (min-width: 768px) {
+        .main-container {
+            flex-direction: row;
+        }
+    }
 .page-transition {
     position: fixed;
     top: 0;
