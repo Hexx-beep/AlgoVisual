@@ -146,6 +146,7 @@ const completeGraphParams = document.getElementById('complete-graph-params');
 const wheelGraphParams = document.getElementById('wheel-graph-params');
 const bipartiteGraphParams = document.getElementById('bipartite-graph-params');
 
+
 // Algorithm explanations
 const algorithmExplanations = {
     'prim': {
@@ -274,7 +275,12 @@ function init() {
     deleteEdgeBtn.addEventListener('click', deleteSelectedEdge);
     clearGraphBtn.addEventListener('click', clearGraph);
     initHuffmanUI();
-    
+    document.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
 
 // Initialize with Graph 1 loaded
     loadGraph(1);
@@ -572,6 +578,8 @@ function addNode() {
     
     // Add click handler for edge creation
     node.addEventListener('click', handleNodeClick);
+    node.addEventListener('touchstart', handleNodeClick, { passive: false });
+
     
     // Add context menu handler
     node.addEventListener('contextmenu', (e) => {
@@ -713,32 +721,94 @@ function updateNodeSelectors() {
 }
 
 // Make a node draggable
-function makeDraggable(node) {
+function makeDraggable(node, isTreeNode = false) {
     let isDragging = false;
     let offsetX, offsetY;
-    
+    let startX, startY;
+    let touchId = null;
+    let lastTapTime = 0;
+    let tapCount = 0;
+    let tapTimeout;
+
+    // Prevent default touch behaviors that could interfere
+    node.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+
+    // Mouse down handler
     node.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return; // Only left click
-        
+        startDrag(e.clientX, e.clientY);
+        e.preventDefault();
+    });
+
+    // Touch start handler
+    node.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            touchId = touch.identifier;
+            startDrag(touch.clientX, touch.clientY);
+            
+            // Handle double tap
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            if (tapCount > 0 && tapLength < 300) { // 300ms threshold for double tap
+                clearTimeout(tapTimeout);
+                deleteNode(node);
+                tapCount = 0;
+            } else {
+                tapCount = 1;
+                tapTimeout = setTimeout(() => {
+                    tapCount = 0;
+                }, 300);
+            }
+            lastTapTime = currentTime;
+            
+            e.preventDefault();
+        }
+    });
+
+    function startDrag(clientX, clientY) {
         isDragging = true;
-        offsetX = e.clientX - node.getBoundingClientRect().left;
-        offsetY = e.clientY - node.getBoundingClientRect().top;
+        const rect = node.getBoundingClientRect();
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+        startX = clientX;
+        startY = clientY;
         
         // Bring to front
         node.style.zIndex = '100';
-        
-        e.preventDefault();
-    });
-    
-    document.addEventListener('mousemove', (e) => {
+    }
+
+    // Mouse move handler
+    document.addEventListener('mousemove', handleMove);
+
+    // Touch move handler
+    document.addEventListener('touchmove', handleMove, { passive: false });
+
+    function handleMove(e) {
         if (!isDragging) return;
         
+        let clientX, clientY;
+        
+        if (e.type === 'mousemove') {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        } else {
+            // For touchmove, find our specific touch
+            const touch = Array.from(e.touches).find(t => t.identifier === touchId);
+            if (!touch) return;
+            clientX = touch.clientX;
+            clientY = touch.clientY;
+            e.preventDefault();
+        }
+
         const canvas = document.getElementById('graph-canvas');
         const rect = canvas.getBoundingClientRect();
         
         // Calculate new position
-        let x = e.clientX - rect.left - offsetX;
-        let y = e.clientY - rect.top - offsetY;
+        let x = clientX - rect.left - offsetX;
+        let y = clientY - rect.top - offsetY;
         
         // Constrain to canvas
         x = Math.max(0, Math.min(x, rect.width - 30));
@@ -756,13 +826,65 @@ function makeDraggable(node) {
         }
         
         // Update edges
-        updateEdges();
-    });
-    
-    document.addEventListener('mouseup', () => {
+        if (!isTreeNode) {
+            updateEdges();
+        }
+    }
+
+    // End drag handlers
+    function endDrag() {
         isDragging = false;
+        touchId = null;
         node.style.zIndex = 'auto';
+    }
+
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchend', endDrag);
+    document.addEventListener('touchcancel', endDrag);
+
+    // Double click to delete (for desktop)
+    node.addEventListener('dblclick', () => {
+        deleteNode(node);
     });
+}
+
+function deleteNode(nodeElement) {
+    if (!confirm('Delete this node and all connected edges?')) {
+        return;
+    }
+
+    const nodeId = parseInt(nodeElement.dataset.id);
+    const nodeIndex = graph.nodes.findIndex(n => n.id === nodeId);
+    
+    if (nodeIndex !== -1) {
+        // Remove the node element
+        nodeElement.remove();
+        
+        // Remove all edges connected to this node
+        const edgesToRemove = graph.edges.filter(edge => 
+            edge.source === nodeId || edge.target === nodeId
+        );
+        
+        edgesToRemove.forEach(edge => {
+            edge.element.remove();
+            if (edge.weightElement) {
+                edge.weightElement.remove();
+            }
+        });
+        
+        // Update edges array
+        graph.edges = graph.edges.filter(edge => 
+            edge.source !== nodeId && edge.target !== nodeId
+        );
+        
+        // Remove the node from the nodes array
+        graph.nodes.splice(nodeIndex, 1);
+        
+        // Update counters and selectors
+        updateNodeCounter();
+        updateEdgeCounter();
+        updateNodeSelectors();
+    }
 }
 // Handle node click for edge creation
 function handleNodeClick(e) {
@@ -911,6 +1033,7 @@ function addEdge(sourceId, targetId, isDirected, weight) {
     // Update counter
     updateEdgeCounter();
 }
+
 
 // Update edge positions when nodes are moved
 function updateEdges() {
