@@ -16,19 +16,30 @@
             </h1>
             <div class="flex space-x-2">
                 <button id="theme-toggle" class="p-3 rounded-full hover:bg-indigo-600/30 transition-colors shadow-lg">
-                        <i class="fas fa-sun text-xl"></i> <!-- Changed from fa-moon to fa-sun -->
-                    </button>
+                    <i class="fas fa-sun text-xl"></i>
+                </button>
                 <button class="p-2 rounded-full hover:bg-slate-800 tooltip">
                     <i class="fas fa-cog glow-effect text-slate-300"></i>
                     <span class="tooltip-text">Settings</span>
                 </button>
                 <button id="back-btn" class="p-2 rounded-full hover:bg-slate-800 tooltip">
                    <i class="fas fa-arrow-left glow-effect text-blue-300"></i>
-                      <span class="tooltip-text">Back to Home</span>
+                   <span class="tooltip-text">Back to Home</span>
                 </button>
             </div>
         </div>
         <div class="flex items-center space-x-4">
+            <!-- Hamburger menu for color key -->
+            <div class="relative">
+                <button id="color-key-toggle" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center space-x-2">
+                    <i class="fas fa-bars"></i>
+                    <span>Color Key</span>
+                </button>
+                <div id="color-key-dropdown" class="absolute right-0 mt-2 w-64 bg-slate-800 rounded-lg shadow-lg z-50 hidden border border-slate-700">
+                    <div id="color-key-legend" class="p-3"></div>
+                </div>
+            </div>
+            
             <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center space-x-2">
                 <i class="fas fa-question-circle"></i>
                 <span>Help</span>
@@ -57,89 +68,6 @@
                         <option value="1">Graph 1</option>
                         <option value="2">Graph 2</option>
                     </select>
-                </div>
-            </div>
-            
-            <div id="color-key-legend" class="absolute top-4 right-4 z-10 bg-slate-900/80 backdrop-blur-sm rounded-lg p-3 hidden">
-                <h3 class="text-sm font-semibold text-slate-200 mb-2">Color Key</h3>
-                <div class="space-y-1">
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-teal-400"></div>
-                        <span>Visited Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-amber-400"></div>
-                        <span>Shortest Path Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-emerald-500"></div>
-                        <span>Start Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-blue-500"></div>
-                        <span>End Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-purple-500"></div>
-                        <span>Eulerian Path Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-pink-500"></div>
-                        <span>Hamiltonian Path Node</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-teal-400"></div>
-                        <span>Visited Edge</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-amber-400"></div>
-                        <span>Shortest Path Edge</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-purple-500"></div>
-                        <span>Eulerian Path Edge</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-pink-500"></div>
-                        <span>Hamiltonian Path Edge</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-rose-500"></div>
-                        <span>Rejected Edge</span>
-                    </div>
-                    <!-- Graph coloring color key items -->
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-blue-500"></div>
-                        <span>Color 0 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-red-500"></div>
-                        <span>Color 1 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-green-500"></div>
-                        <span>Color 2 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-yellow-500"></div>
-                        <span>Color 3 (Vertex)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-blue-500"></div>
-                        <span>Color 0 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-red-500"></div>
-                        <span>Color 1 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-green-500"></div>
-                        <span>Color 2 (Edge)</span>
-                    </div>
-                    <div class="color-key-item">
-                        <div class="color-key-color bg-yellow-500"></div>
-                        <span>Color 3 (Edge)</span>
-                    </div>
                 </div>
             </div>
             
@@ -269,7 +197,7 @@
                         <i class="fas fa-tree mr-2 text-green-300"></i>
                         Expression Tree
                     </button>
-</div>
+                </div>
                 
                 <div id="algorithm-explanation" class="algorithm-explanation mt-4 hidden">
                     <h3 id="algo-title" class="text-lg font-semibold"></h3>
@@ -508,7 +436,6 @@
     </div>
 
     <script src="graph.js"></script>
-
+    <script src="g3.js"></script>
 </body>
 </html>
-
